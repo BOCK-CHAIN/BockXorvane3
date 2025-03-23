@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String         @unique
+  name         String?
+  password     String
+  image        String?
+  trial        Boolean        @default(false)
+  firstView    Boolean        @default(false)
+  comment      Comment[]
+  reciever     Invite[]       @relation("reciever")
+  sender       Invite[]       @relation("sender")
+  studio       Media?
+  members      Member[]
+  notification Notification[]
+  subscription Subscription?
+  videos       Video[]
+  workspace    WorkSpace[]
+  Transaction  Transaction[]
+  sessions     Session[]
+  accounts     Account[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  comment   String
+  commentId String?   @db.Uuid
+  userId    String?   @db.Uuid
+  videoId   String?   @db.Uuid
+  createdAt DateTime  @default(now())
+  Comment   Comment?  @relation("reply", fields: [commentId], references: [id])
+  reply     Comment[] @relation("reply")
+  User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Video     Video?    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                     String       @id @default(uuid())
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  plan                   Plan         @default(NONE)
+  currentPeriodStartDate DateTime?
+  currentPeriodEndDate   DateTime?
+  transactionId          String?      @unique
+  transaction            Transaction? @relation(fields: [transactionId], references: [id])
+  userId                 String       @unique @db.Uuid
+  user                   User         @relation(fields: [userId], references: [id])
+
+  @@index([transactionId])
+}
+
+model Transaction {
+  id             String        @id @default(cuid())
+  orderId        String
+  paymentId      String?
+  amount         Float
+  userId         String        @db.Uuid
+  user           User          @relation(fields: [userId], references: [id])
+  createdAt      DateTime      @default(now())
+  Subscription   Subscription? @relation
+  subscriptionId String?
+}
+
+enum Plan {
+  NONE
+  MONTHLY
+  YEARLY
+}
+
+model Media {
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  screen String?
+  mic    String?
+  camera String?
+  preset PRESET  @default(SD)
+  userId String? @unique @db.Uuid
+  User   User?   @relation(fields: [userId], references: [id])
+}
+
+model WorkSpace {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type      Type
+  name      String
+  userId    String?  @db.Uuid
+  createdAt DateTime @default(now())
+  folders   Folder[]
+  invite    Invite[]
+  members   Member[]
+  videos    Video[]
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model Folder {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String     @default("Untitled Folder")
+  createdAt   DateTime   @default(now())
+  workSpaceId String?    @db.Uuid
+  WorkSpace   WorkSpace? @relation(fields: [workSpaceId], references: [id])
+  videos      Video[]
+}
+
+model Video {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String?    @default("Untilted Video")
+  description String?    @default("No Description")
+  source      String     @unique
+  createdAt   DateTime   @default(now())
+  folderId    String?    @db.Uuid
+  userId      String?    @db.Uuid
+  processing  Boolean    @default(true)
+  workSpaceId String?    @db.Uuid
+  views       Int        @default(0)
+  summery     String?
+  Comment     Comment[]
+  Folder      Folder?    @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  User        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  WorkSpace   WorkSpace? @relation(fields: [workSpaceId], references: [id], onDelete: Cascade)
+}
+
+model Member {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String?    @db.Uuid
+  createdAt   DateTime   @default(now())
+  member      Boolean    @default(true)
+  workSpaceId String?    @db.Uuid
+  User        User?      @relation(fields: [userId], references: [id])
+  WorkSpace   WorkSpace? @relation(fields: [workSpaceId], references: [id])
+}
+
+model Notification {
+  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId  String? @db.Uuid
+  content String
+  User    User?   @relation(fields: [userId], references: [id])
+}
+
+model Invite {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  senderId    String?    @db.Uuid
+  recieverId  String?    @db.Uuid
+  content     String
+  workSpaceId String?    @db.Uuid
+  accepted    Boolean    @default(false)
+  reciever    User?      @relation("reciever", fields: [recieverId], references: [id])
+  sender      User?      @relation("sender", fields: [senderId], references: [id])
+  WorkSpace   WorkSpace? @relation(fields: [workSpaceId], references: [id])
+}
+
+enum Type {
+  PERSONAL
+  PUBLIC
+}
+
+enum PRESET {
+  HD
+  SD
+}
+
+enum SUBSCRIPTION_PLAN {
+  PRO
+  FREE
+}
+
+model Account {
+  userId            String  @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String   @db.Uuid
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
