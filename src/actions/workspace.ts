@@ -2,8 +2,8 @@
 
 import { client } from "@/lib/prisma";
 import { sendEmail } from "./user";
-import { createClient, OAuthStrategy } from "@wix/sdk";
-import { items } from "@wix/data";
+// import { createClient, OAuthStrategy } from "@wix/sdk";
+// import { items } from "@wix/data";
 import axios from "axios";
 import { auth } from "@/auth";
 
@@ -440,68 +440,68 @@ export const editVideoInfo = async (
   }
 };
 
-export const getWixContent = async () => {
-  try {
-    //   WIP : Wix API integration
-    const myWixClient = createClient({
-      modules: { items },
-      auth: OAuthStrategy({
-        clientId: process.env.WIX_OAUTH_KEY as string,
-      }),
-    });
-    let videos = {
-      items: [{
-        data: {
-          title: "",
-        }
-      }]
-    }
+// export const getWixContent = async () => {
+//   try {
+//     //   WIP : Wix API integration
+//     const myWixClient = createClient({
+//       modules: { items },
+//       auth: OAuthStrategy({
+//         clientId: process.env.WIX_OAUTH_KEY as string,
+//       }),
+//     });
+//     let videos = {
+//       items: [{
+//         data: {
+//           title: "",
+//         }
+//       }]
+//     }
 
-    // const videos = await myWixClient.items
-    //   .queryDataItems({
-    //     dataCollectionId: "opal-videos",
-    //   })
-    //   .find();
+//     // const videos = await myWixClient.items
+//     //   .queryDataItems({
+//     //     dataCollectionId: "opal-videos",
+//     //   })
+//     //   .find();
 
-    const videoIds = videos?.items?.map((v) => v?.data?.title);
+//     const videoIds = videos?.items?.map((v) => v?.data?.title);
 
-    const video = await client.video.findMany({
-      where: {
-        id: {
-          in: videoIds,
-        },
-      },
-      select: {
-        id: true,
-        createdAt: true,
-        title: true,
-        source: true,
-        processing: true,
-        workSpaceId: true,
-        User: {
-          select: {
-            name: true,
-            image: true,
-          },
-        },
-        Folder: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
+//     const video = await client.video.findMany({
+//       where: {
+//         id: {
+//           in: videoIds,
+//         },
+//       },
+//       select: {
+//         id: true,
+//         createdAt: true,
+//         title: true,
+//         source: true,
+//         processing: true,
+//         workSpaceId: true,
+//         User: {
+//           select: {
+//             name: true,
+//             image: true,
+//           },
+//         },
+//         Folder: {
+//           select: {
+//             id: true,
+//             name: true,
+//           },
+//         },
+//       },
+//     });
 
-    if (video && video.length > 0) {
-      return { status: 200, data: video };
-    }
-    return { status: 404 };
-  } catch (error) {
-    console.log(error);
-    return { status: 400 };
-  }
-};
+//     if (video && video.length > 0) {
+//       return { status: 200, data: video };
+//     }
+//     return { status: 404 };
+//   } catch (error) {
+//     console.log(error);
+//     return { status: 400 };
+//   }
+// };
 
 export const howToPost = async () => {
   try {
