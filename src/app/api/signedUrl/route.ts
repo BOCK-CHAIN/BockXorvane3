@@ -8,7 +8,6 @@ export const POST = async(req: Request)=>{
     if(!userId){
         return new NextResponse("Unauthorized",{ status: 401});  
     }
-    console.log(fileType, workspaceId, userId,fileName)
     if(!fileType || !workspaceId || !userId){
         return new NextResponse("File is required",{ status: 401});  
     }
@@ -26,7 +25,6 @@ export const POST = async(req: Request)=>{
                 expires: Date.now() + 15 * 60 * 1000,
                 contentType: fileType
             });
-
         return new NextResponse(JSON.stringify({url,source}),{ status: 200});  
         
     }catch(err){

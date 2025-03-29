@@ -16,7 +16,6 @@ interface bodyProps {
 }
 
 export const createOrder = async (body: bodyProps) => {
-  // console.log(body);
   
   const payload = {
     body: {

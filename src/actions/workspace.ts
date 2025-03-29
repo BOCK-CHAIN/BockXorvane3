@@ -109,7 +109,6 @@ export const getAllUserVideos = async (workSpaceId: string) => {
 
     return { status: 404 };
   } catch (error) {
-    console.log("hello")
     console.log(error)
     return { status: 400 };
   }

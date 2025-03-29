@@ -17,7 +17,6 @@ export const savePaymentToDb = async (userId: string, paymentId: string) => {
       },
     });
 
-    console.log(response);
 
     return { response };
   } catch (error) {
@@ -65,8 +64,6 @@ export const saveOrder = async (
         currentPeriodEndDate: orderData.expiryDate,
       },
     });
-
-    console.log(response);
     return { response };
   } catch (error) {
     console.error(error);

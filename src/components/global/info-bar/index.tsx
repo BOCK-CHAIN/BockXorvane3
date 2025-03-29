@@ -46,7 +46,7 @@ const InfoBar = () => {
         if (!url || !source) {
           setIsUploading(false);
           return toast.error("Error uploading video");
-        }
+        } 
 
         await axios.put(url, file.slice(), {
           headers: { "Content-Type": file.type },

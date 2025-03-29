@@ -203,7 +203,6 @@ export function SubscriptionCard({ userId, plan, subscription, email, name }: Pr
                                     }
                                     orderData.expiryDate.setDate(orderData.expiryDate.getDate() + 1);
                                     orderData.expiryDate.setHours(0, 0, 0, 0);
-                                    console.log(orderData)
                                     const resp = await saveOrderToDatabase(orderData)
 
                                     if (resp?.error) {

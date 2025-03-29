@@ -117,7 +117,6 @@ export const searchUsers = async (query: string) => {
         email: true,
       },
     });
-    console.log(users)
     if (users && users.length > 0) {
       return { status: 200, data: users };
     }
@@ -351,7 +350,7 @@ export const inviteMembers = async (
             if (error) {
               console.log("🔴", error.message);
             } else {
-              console.log("✅ Email send");
+              console.log("✅ Email sent");
             }
           });
           return { status: 200, data: "Invite sent" };

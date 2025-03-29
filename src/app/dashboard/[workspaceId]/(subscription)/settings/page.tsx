@@ -20,9 +20,6 @@ const SettingsPage = () => {
     }
   },[currentUser])
 
-  console.log(user, currentUser)
-
-
   const switchState = async (checked: boolean) => {
     const view = await enableFirstView(checked)
     if (view) {

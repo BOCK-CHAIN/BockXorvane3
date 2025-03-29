@@ -54,7 +54,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
           const { email, password } = isValid.data
-          console.log(email,password)
           const res = await checkUser(email, password);
           if (res.success && res.data) {
             return {
@@ -64,7 +63,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               image: res.data.image
             } as User
           }
-          console.log(res)
 
           return null;
         } catch (err) {

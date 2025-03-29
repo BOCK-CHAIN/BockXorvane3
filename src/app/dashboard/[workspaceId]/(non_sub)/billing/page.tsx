@@ -12,8 +12,6 @@ export default async function BillingPage({ params }: Props) {
   const user = session?.user;
   const { workspaceId } = params
 
-  console.log(workspaceId)
-
   if (!user) {
     signIn();
     return;

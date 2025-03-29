@@ -5,7 +5,6 @@ import bcryptjs from "bcryptjs";
 
 export const checkUser = async (email: string, password: string) => {
   try {
-    console.log("hello")
     const existedUser = await client.user.findUnique({
       where: {
         email,
@@ -24,7 +23,6 @@ export const checkUser = async (email: string, password: string) => {
         message: "Please provide a password.",
       };
     }
-    console.log("helja lsdfk")
     const isPasswordMatches = await bcryptjs.compare(
       password,
       existedUser.password
