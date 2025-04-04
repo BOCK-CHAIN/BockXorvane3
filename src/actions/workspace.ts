@@ -458,7 +458,7 @@ export const editVideoInfo = async (
 
 //     // const videos = await myWixClient.items
 //     //   .queryDataItems({
-//     //     dataCollectionId: "opal-videos",
+//     //     dataCollectionId: "videos",
 //     //   })
 //     //   .find();
 

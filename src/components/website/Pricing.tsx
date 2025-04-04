@@ -14,20 +14,20 @@ type BillingInterval = "Monthly" | "Yearly"
 
 const prices = [
   {
-    id: "price_1",
+    id: "MONTH",
     title: "Pro Plan",
     description: "Perfect for individuals getting started with Workman",
     currency: "USD",
-    unit_amount: 1000,
+    unit_amount: Number(process.env.NEXT_PUBLIC_MONTHLY_PRICE),
     interval: "Monthly",
-    isPopular: true,
+    isPopular: false,
   },
   {
-    id: "price_2",
+    id: "YEAR",
     title: "Pro Plan",
     description: "Perfect for individuals getting started with Workman.",
     currency: "USD",
-    unit_amount: 9900,
+    unit_amount: Number(process.env.NEXT_PUBLIC_YEARLY_PRICE),
     interval: "Yearly",
     isPopular: true,
   },
@@ -126,7 +126,7 @@ export default function PricingPlans() {
                   style: "currency",
                   currency: price.currency!,
                   minimumFractionDigits: 0,
-                }).format((price.unit_amount || 0) / 100)
+                }).format((price.unit_amount || 0) )
 
                 return (
                   <PricingCard

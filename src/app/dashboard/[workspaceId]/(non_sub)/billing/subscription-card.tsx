@@ -14,12 +14,24 @@ import { captureOrder, createOrder } from "@/lib/paypal"
 import { saveOrder, savePaymentToDb } from "@/actions/billing"
 import { useRouter } from "next/navigation"
 
-export const plans = [
-    { name: "Monthly", price: 5.99, durationInMonths: 1 },
-    { name: "Yearly", price: 3.99, yearlyPrice: 47.88, durationInMonths: 12 },
+interface Plan {
+    name: string
+    price: number
+    yearlyPrice?: number
+    durationInMonths: number
+}
+
+export const plans: Plan[] = [
+    { name: "Monthly", price: Number(process.env.NEXT_PUBLIC_MONTHLY_PRICE), durationInMonths: 1 },
+    { name: "Yearly", price: Number(process.env.NEXT_PUBLIC_YEARLY_PRICE) / 12, yearlyPrice: Number(process.env.NEXT_PUBLIC_YEARLY_PRICE), durationInMonths: 12 },
 ]
 
-const benefits = ["WebBuild", "AutoWork", "WorkMan"]
+const benefits = [
+    "Create and manage multiple workspaces",
+    "Store and organize unlimited videos",
+    "Invite team members",
+    "Collaborative annotation"
+]
 
 interface Props {
     subscription: Subscription | null
@@ -139,7 +151,9 @@ export function SubscriptionCard({ userId, plan, subscription, email, name }: Pr
                 {selectedPlan.name === "Yearly" && (
                     <div className={cn("text-sm", lightmode ? "text-gray-600" : "text-muted-foreground")}>
                         ${selectedPlan.yearlyPrice!.toFixed(2)} per year
-                        <span className="text-emerald-500 ml-2">save 33%</span>
+                        <span className="text-emerald-500 ml-2">
+                            save {(((plans[0].price * 12 - selectedPlan.yearlyPrice!) / (plans[0].price * 12)) * 100).toFixed(2)}%
+                        </span>
                     </div>
                 )}
             </CardHeader>
@@ -195,7 +209,7 @@ export function SubscriptionCard({ userId, plan, subscription, email, name }: Pr
                                     const orderData = {
                                         transaction: {
                                             orderId: data.orderID,
-                                            amount: selectedPlan.name === "Yearly" ? selectedPlan.yearlyPrice! : selectedPlan.price,
+                                            amount: selectedPlan.name === "Yearly" ? selectedPlan.yearlyPrice! : selectedPlan.price!,
                                         },
                                         plan: selectedPlan.name.toUpperCase() as "MONTHLY" | "YEARLY",
                                         startDate: new Date(),
