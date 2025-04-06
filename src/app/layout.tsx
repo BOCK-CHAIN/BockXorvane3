@@ -12,7 +12,7 @@ const manrope = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'WorkMan',
-  description: ' ',
+  description: 'Organize, Collaborate, and Store Videos with WorkMan',
 }
 
 export default function RootLayout({
