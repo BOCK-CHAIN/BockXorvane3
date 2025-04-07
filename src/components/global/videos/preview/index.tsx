@@ -116,16 +116,38 @@ const VideoPreview = ({ videoId }: Props) => {
             defaultValue="Ai tools"
             triggers={['Ai tools', 'Transcript', 'Activity']}
           >
-            <AiTools
-              videoId={videoId}
-              trial={video.User?.trial!}
-              plan={video.User?.subscription?.plan!}
-            />
-            <VideoTranscript transcript={video.summery!} />
-            <Activities
-              author={video.User?.name as string}
-              videoId={videoId}
-            />
+            <TabsContent value="Ai tools">
+              <div className="relative">
+                <div className="blur-sm pointer-events-none select-none">
+                  <AiTools
+                    videoId={videoId}
+                    trial={video.User?.trial!}
+                    plan={video.User?.subscription?.plan!}
+                  />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold bg-black/60 rounded-lg z-10">
+                  Coming Soon
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="Transcript">
+              <div className="relative">
+                <div className="blur-sm pointer-events-none select-none">
+                  <VideoTranscript transcript={video.summery!} />
+                </div>
+                <div className="absolute h-24  inset-0 flex items-center justify-center text-white text-xl font-semibold bg-black/60 rounded-lg z-10">
+                  Coming Soon
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="Activity">
+              <Activities
+                author={video.User?.name as string}
+                videoId={videoId}
+              />
+            </TabsContent>
           </TabMenu>
         </div>
       </div>

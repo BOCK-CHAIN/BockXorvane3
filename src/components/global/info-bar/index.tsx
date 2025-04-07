@@ -47,10 +47,13 @@ const InfoBar = () => {
           setIsUploading(false);
           return toast.error("Error uploading video");
         } 
+        if(!isUploading) return;
 
         await axios.put(url, file.slice(), {
           headers: { "Content-Type": file.type },
         });
+
+        if(!isUploading) return;
 
         const res = await addVideo(
           Array.isArray(workspaceId) ? workspaceId[0] : workspaceId,
@@ -101,7 +104,7 @@ const InfoBar = () => {
       </header>
 
       {/* Uploading Dialog */}
-      <Dialog open={isUploading}>
+      <Dialog open={isUploading} onOpenChange={()=>setIsUploading(false)}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Uploading Video</DialogTitle>
