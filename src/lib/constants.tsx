@@ -82,19 +82,19 @@ export const FooterItems = [
     items: [
       {
         comp: "Privacy Policy",
-        href: "/privacy-policy",
+        href: `${process.env.NEXT_PUBLIC_HOME_URL ?? ''}/privacy-policy`,
       },
       {
         comp: "Terms of Use",
-        href: "/terms-of-use",
+        href: `${process.env.NEXT_PUBLIC_HOME_URL ?? ''}/terms-of-use`,
       },
       {
         comp: "Refund and Cancellation Policy",
-        href: "/refund-and-cancellation",
+        href: `${process.env.NEXT_PUBLIC_HOME_URL ?? ''}/refund-and-cancellation`,
       },
       {
         comp: "Shipping And Delivery Policy",
-        href: "/shipping-and-delivery",
+        href: `${process.env.NEXT_PUBLIC_HOME_URL ?? ''}/shipping-and-delivery`,
       }
     ],
   }
@@ -111,24 +111,24 @@ export const socialMedia = [
     name: "X",
     icon: <FaXTwitter className="w-5 h-5" />,
     href: "https://x.com/BockBH",
-    color: "hover:bg-[#1DA1F2] dark:hover:bg-[#1DA1F2]", 
+    color: "hover:bg-[#1DA1F2] dark:hover:bg-[#1DA1F2]",
   },
   {
     name: "LinkedIn",
     icon: <FaLinkedin className="w-5 h-5" />,
     href: "https://www.linkedin.com/company/bockbharath/",
-    color: "hover:bg-[#0A66C2] dark:hover:bg-[#0A66C2]", 
+    color: "hover:bg-[#0A66C2] dark:hover:bg-[#0A66C2]",
   },
   {
     name: "YouTube",
     icon: <FaYoutube className="w-5 h-5" />,
     href: "https://www.youtube.com/@bockbharath",
-    color: "hover:bg-[#FF0000] dark:hover:bg-[#FF0000]", 
+    color: "hover:bg-[#FF0000] dark:hover:bg-[#FF0000]",
   },
   {
     name: "Facebook",
     icon: <FaFacebook className="w-5 h-5" />,
     href: "https://www.facebook.com/bockbharath/",
-    color: "hover:bg-[#1877F2] dark:hover:bg-[#1877F2]", 
+    color: "hover:bg-[#1877F2] dark:hover:bg-[#1877F2]",
   },
 ];

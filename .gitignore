@@ -38,3 +38,4 @@ next-env.d.ts
 
 gcs-key.json
 package-lock.json
+/prisma/migrations
