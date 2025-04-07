@@ -9,8 +9,6 @@ export async function POST(
     const body = await req.json()
     const { id } = params
 
-    console.log('body processing',body,id)
-
     const personalworkspaceId = await client.user.findUnique({
       where: {
         id,
@@ -61,6 +59,6 @@ export async function POST(
     }
     return NextResponse.json({ status: 400 })
   } catch (error) {
-    console.log('🔴 Error in processing video', error)
+    console.log('Error in processing video', error)
   }
 }

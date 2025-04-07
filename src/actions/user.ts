@@ -59,7 +59,7 @@ export const onAuthenticateUser = async () => {
     }
     return { status: 400 };
   } catch (error) {
-    console.log("🔴 ERROR", error);
+    console.log("ERROR", error);
     return { status: 500 };
   }
 };
@@ -348,7 +348,7 @@ export const inviteMembers = async (
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log("🔴", error.message);
+              console.log(" ", error.message);
             } else {
               console.log("✅ Email sent");
             }

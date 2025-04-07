@@ -23,9 +23,7 @@ export async function POST(
       summery: body.transcript,
     },
   })
-  console.log(transcribed)
   if (transcribed) {
-    console.log('🟢 Transcribed')
     // const options = {
     //   method: 'POST',
     //   url: process.env.VOICEFLOW_KNOWLEDGE_BASE_API,
@@ -60,7 +58,7 @@ export async function POST(
       return NextResponse.json({ status: 200 })
 
   }
-  console.log('🔴 Transcription went wrong')
+  console.log(' Transcription went wrong')
 
   return NextResponse.json({ status: 400 })
 }
