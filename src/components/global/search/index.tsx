@@ -27,7 +27,7 @@ const Search = ({ workspaceId }: Props) => {
   )
 
   return (
-    <div className="flex flex-col gap-y-5 w-full h-full">
+    <div className="flex flex-col gap-y-5 w-full h-[500px] ">
       <Input
         onChange={onSearchQuery}
         value={query}
@@ -51,13 +51,12 @@ const Search = ({ workspaceId }: Props) => {
           <Loader state className="w-full h-20 rounded-xl" />
         </div>
       ) :
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-2 overflow-y-scroll no-scrollbar">
           {onUsers.map((user) => (
             <div
               key={user.id}
               className="flex gap-x-3 items-center border-2 w-full p-3 rounded-xl"
             >
-
               <>
                 <Avatar>
                   <AvatarImage src={user.image as string} />

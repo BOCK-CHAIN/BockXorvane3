@@ -9,7 +9,7 @@
 
 ```bash
 git clone repo_link
-cd krsyonix
+cd dir*
 ```
 
 #### 2. Creaate a .env file

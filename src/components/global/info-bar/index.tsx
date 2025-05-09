@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import Loader from "../loader";
 import { useParams } from "next/navigation";
 import { addVideo, checkForUser } from "@/actions/video";
+import { checkDomainOfScale } from "recharts/types/util/ChartUtils";
 
 const InfoBar = () => {
   const [isUploading, setIsUploading] = useState(false);
@@ -47,13 +48,10 @@ const InfoBar = () => {
           setIsUploading(false);
           return toast.error("Error uploading video");
         } 
-        if(!isUploading) return;
 
         await axios.put(url, file.slice(), {
           headers: { "Content-Type": file.type },
         });
-
-        if(!isUploading) return;
 
         const res = await addVideo(
           Array.isArray(workspaceId) ? workspaceId[0] : workspaceId,
@@ -103,8 +101,7 @@ const InfoBar = () => {
         />
       </header>
 
-      {/* Uploading Dialog */}
-      <Dialog open={isUploading} onOpenChange={()=>setIsUploading(false)}>
+      <Dialog open={isUploading}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Uploading Video</DialogTitle>

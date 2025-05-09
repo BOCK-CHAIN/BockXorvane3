@@ -5,7 +5,7 @@ import { authConfig } from '@/auth.config'
 const { auth } = NextAuth(authConfig)
 
 const isProtectedRoutes = ['/dashboard', '/payment']
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000']
+const allowedOrigins = [ 'http://localhost:3000']
 
 const corsOptions = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
